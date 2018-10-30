@@ -2,9 +2,7 @@ class ThermostatsController < ApplicationController
   before_action :set_thermostat, only: [:show, :update, :destroy]
 
   def index
-    @thermostats = Thermostat.all
-
-    render json: @thermostats
+    render json: { status: :success }
   end
 
   def show
@@ -13,9 +11,7 @@ class ThermostatsController < ApplicationController
 
   def create
     @thermostat = Thermostat.new(thermostat_params)
-
-    if @thermostat.save
-      binding.pry
+    if @thermostat.save_init_data
       render json: { token: @thermostat.household_token, status: :success }
     else
       render json: @thermostat.errors, status: :unprocessable_entity

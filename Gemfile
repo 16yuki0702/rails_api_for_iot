@@ -5,15 +5,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 5.1.6'
-gem 'mysql2', '>= 0.3.18', '< 0.6.0'
 gem 'armg'
+gem 'mysql2', '>= 0.3.18', '< 0.6.0'
+gem 'rails', '~> 5.1.6'
+gem 'redis'
+gem 'redis-rails'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-
-gem 'coffee-rails', '~> 4.2'
-gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

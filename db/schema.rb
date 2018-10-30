@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181024140120) do
+ActiveRecord::Schema.define(version: 20181030130014) do
+
+  create_table "readings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "number"
+    t.float "temperature", limit: 24
+    t.float "humidity", limit: 24
+    t.float "battery_charge", limit: 24
+    t.bigint "thermostats_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thermostats_id"], name: "index_readings_on_thermostats_id"
+  end
+
+  create_table "sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "number"
+    t.bigint "thermostats_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thermostats_id"], name: "index_sequences_on_thermostats_id"
+  end
 
   create_table "thermostats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "household_token"
@@ -20,4 +39,6 @@ ActiveRecord::Schema.define(version: 20181024140120) do
     t.index ["household_token"], name: "index_thermostats_on_household_token", unique: true
   end
 
+  add_foreign_key "readings", "thermostats", column: "thermostats_id"
+  add_foreign_key "sequences", "thermostats", column: "thermostats_id"
 end
