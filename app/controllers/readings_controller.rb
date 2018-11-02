@@ -1,16 +1,23 @@
 class ReadingsController < ApplicationController
-  before_action :set_reading, only: :show
+  before_action :authenticate
 
   def show
+    begin
+      cache = DataBuffer.get(reading_key(params[:number]))
+      if cache.nil?
+        @reading = Reading.find(number: params[:number])
+      else
+        @reading = JSON.parse(cache)
+      end
+    rescue
+      return not_found
+    end
+
+    render json: { reading: @reading, status: :success }
   end
 
   def create
-    permitted = reading_params
-
-    @thermostat = Thermostat.find_by(household_token: permitted[:household_token])
-    if @thermostat.nil?
-      return render json: { status: :unauthorized }
-    end
+    permitted = create_reading_params
 
     if DataBuffer.get(sequence_key).nil?
       @thermostat.sequence.with_lock do
@@ -24,23 +31,40 @@ class ReadingsController < ApplicationController
                            humidity: permitted[:humidity],
                            battery_charge: permitted[:battery_charge])
 
+    DataBuffer.multi do
+      key = reading_key(@reading.number)
+      DataBuffer.set(key, @reading.to_json)
+      DataBuffer.expire(key, 60 * 60 * 24)
+    end
+
     if @reading.save
-      render json: @reading, status: :success
+      render json: { reading: @reading, status: :success }
     else
-      render json: @reading.errors, status: :error
+      render json: { error: @reading.errors, status: :error }
     end
   end
 
   private
-    def set_reading
-      @reading = Reading.find(params[:id])
+
+    def authenticate
+      authenticate_or_request_with_http_token do |token, options|
+        @thermostat = Thermostat.find_by(household_token: token)
+      end
     end
 
-    def reading_params
-      params.permit(:household_token, :temperature, :humidity, :battery_charge)
+    def create_reading_params
+      params.require(:reading).permit(:temperature, :humidity, :battery_charge)
     end
 
     def sequence_key
       "sequence_#{@thermostat.id}"
+    end
+
+    def reading_key(number)
+      "reading_#{@thermostat.id}_#{number}"
+    end
+
+    def not_found
+      render json: { error: 'Record not found', status: :error }
     end
 end

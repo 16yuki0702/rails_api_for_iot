@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :sequences
-  resources :readings
-  resources :thermostats
+  resources :thermostats, only: [:create]
+
+  get  '/readings/:number', to: 'readings#show'
+  post '/readings',         to: 'readings#create'
 end
