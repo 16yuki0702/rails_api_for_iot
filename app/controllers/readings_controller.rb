@@ -37,6 +37,8 @@ class ReadingsController < ApplicationController
       DataBuffer.expire(key, 60 * 60 * 24)
     end
 
+    @thermostat.sequence.increment!('number', 1)
+
     if @reading.save
       render json: { reading: @reading, status: :success }
     else
