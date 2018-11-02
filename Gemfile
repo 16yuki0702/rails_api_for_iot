@@ -9,9 +9,11 @@ gem 'armg'
 gem 'mysql2', '>= 0.3.18', '< 0.6.0'
 gem 'rails', '~> 5.1.6'
 gem 'redis'
+gem 'redis-namespace'
 gem 'redis-rails'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
+gem 'sidekiq', '>= 4.2.9'
 gem 'uglifier', '>= 1.3.0'
 
 group :development, :test do

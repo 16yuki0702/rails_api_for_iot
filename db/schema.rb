@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20181030130014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["thermostats_id"], name: "index_readings_on_thermostats_id"
+    t.index ["number", "thermostats_id"], name: "index_readings_on_number_and_thermostats_id", unique: true
   end
 
   create_table "sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
