@@ -25,6 +25,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'rspec-rails'
+  gem 'rspec-sidekiq'
 end
 
 group :development do
