@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_181_103_012_436) do
+ActiveRecord::Schema.define(version: 20181103012436) do
   create_table 'readings', force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.integer 'number', null: false
     t.float 'temperature', limit: 24, default: 0.0, null: false
