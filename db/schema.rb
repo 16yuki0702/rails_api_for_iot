@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20181103012436) do
 
   create_table 'thermostats', force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.string 'household_token', null: false
-    t.geometry 'location'
+    t.geometry 'location', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['household_token'], name: 'index_thermostats_on_household_token', unique: true
