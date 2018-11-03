@@ -16,6 +16,7 @@ class ReadingsController < ApplicationController
   def create
     reading = build_reading(reading_params)
     @buffer.set_reading(reading)
+    @buffer.keep_stat(reading)
     EventWorker.perform_async(@thermostat.id, reading.number)
     render json: { number: reading.number, status: :success }
   end

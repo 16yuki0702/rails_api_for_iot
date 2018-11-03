@@ -10,30 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030130014) do
+ActiveRecord::Schema.define(version: 20181103012436) do
 
   create_table "readings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "number"
-    t.float "temperature", limit: 24
-    t.float "humidity", limit: 24
-    t.float "battery_charge", limit: 24
-    t.bigint "thermostats_id"
+    t.integer "number", null: false
+    t.float "temperature", limit: 24, default: 0.0, null: false
+    t.float "humidity", limit: 24, default: 0.0, null: false
+    t.float "battery_charge", limit: 24, default: 0.0, null: false
+    t.bigint "thermostats_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["thermostats_id"], name: "index_readings_on_thermostats_id"
     t.index ["number", "thermostats_id"], name: "index_readings_on_number_and_thermostats_id", unique: true
+    t.index ["thermostats_id"], name: "index_readings_on_thermostats_id"
   end
 
   create_table "sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "number"
-    t.bigint "thermostats_id"
+    t.bigint "number", null: false
+    t.bigint "thermostats_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["thermostats_id"], name: "index_sequences_on_thermostats_id"
   end
 
+  create_table "stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float "temperature_total", limit: 53, default: 0.0, null: false
+    t.float "temperature_max", limit: 24, default: 0.0, null: false
+    t.float "temperature_min", limit: 24, default: 0.0, null: false
+    t.float "humidity_total", limit: 53, default: 0.0, null: false
+    t.float "humidity_max", limit: 24, default: 0.0, null: false
+    t.float "humidity_min", limit: 24, default: 0.0, null: false
+    t.float "battery_charge_total", limit: 53, default: 0.0, null: false
+    t.float "battery_charge_max", limit: 24, default: 0.0, null: false
+    t.float "battery_charge_min", limit: 24, default: 0.0, null: false
+    t.bigint "thermostats_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thermostats_id"], name: "index_stats_on_thermostats_id", unique: true
+  end
+
   create_table "thermostats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "household_token"
+    t.string "household_token", null: false
     t.geometry "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,4 +58,5 @@ ActiveRecord::Schema.define(version: 20181030130014) do
 
   add_foreign_key "readings", "thermostats", column: "thermostats_id"
   add_foreign_key "sequences", "thermostats", column: "thermostats_id"
+  add_foreign_key "stats", "thermostats", column: "thermostats_id"
 end
