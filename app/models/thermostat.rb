@@ -6,12 +6,12 @@ class Thermostat < ApplicationRecord
 
   def save_init_data
     begin
-      self.transaction do
-        self.save
-        Sequence.new(thermostats_id: self.id, number: 0).save
-        Stat.new(thermostats_id: self.id).save
+      transaction do
+        save
+        Sequence.new(thermostats_id: id, number: 0).save
+        Stat.new(thermostats_id: id).save
       end
-    rescue
+    rescue StandardError
       return false
     end
     true

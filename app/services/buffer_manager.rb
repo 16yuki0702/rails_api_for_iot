@@ -61,55 +61,51 @@ class BufferManager
       DataBuffer.incrbyfloat(stat_total_key(k), v)
 
       max = DataBuffer.get(stat_max_key(k))
-      if max.nil? || max.to_f < v
-        DataBuffer.set(stat_max_key(k), v)
-      end
+      DataBuffer.set(stat_max_key(k), v) if max.nil? || max.to_f < v
 
       min = DataBuffer.get(stat_min_key(k))
-      if min.nil? || min.to_f > v || reading.number == 1
-        DataBuffer.set(stat_min_key(k), v)
-      end
+      DataBuffer.set(stat_min_key(k), v) if min.nil? || min.to_f > v || reading.number == 1
     end
   end
 
   private
 
-    def sequence_key
-      "sequence_#{@thermostat.id}"
-    end
+  def sequence_key
+    "sequence_#{@thermostat.id}"
+  end
 
-    def reading_key(number)
-      "reading_#{@thermostat.id}_#{number}"
-    end
+  def reading_key(number)
+    "reading_#{@thermostat.id}_#{number}"
+  end
 
-    def stat_total_key(kind)
-      "stat_#{@thermostat.id}_total_#{kind}"
-    end
+  def stat_total_key(kind)
+    "stat_#{@thermostat.id}_total_#{kind}"
+  end
 
-    def stat_max_key(kind)
-      "stat_#{@thermostat.id}_max_#{kind}"
-    end
+  def stat_max_key(kind)
+    "stat_#{@thermostat.id}_max_#{kind}"
+  end
 
-    def stat_min_key(kind)
-      "stat_#{@thermostat.id}_min_#{kind}"
-    end
+  def stat_min_key(kind)
+    "stat_#{@thermostat.id}_min_#{kind}"
+  end
 
-    def set_total(k, v)
-      DataBuffer.set(stat_total_key(k), v)
-    end
+  def set_total(k, v)
+    DataBuffer.set(stat_total_key(k), v)
+  end
 
-    def set_max(k, v)
-      DataBuffer.set(stat_max_key(k), v)
-    end
+  def set_max(k, v)
+    DataBuffer.set(stat_max_key(k), v)
+  end
 
-    def set_min(k, v)
-      DataBuffer.set(stat_min_key(k), v)
-    end
+  def set_min(k, v)
+    DataBuffer.set(stat_min_key(k), v)
+  end
 
-    def set_with_timeout(key, value)
-      DataBuffer.multi do
-        DataBuffer.set(key, value)
-        DataBuffer.expire(key, DEFAULT_TIMEOUT)
-      end
+  def set_with_timeout(key, value)
+    DataBuffer.multi do
+      DataBuffer.set(key, value)
+      DataBuffer.expire(key, DEFAULT_TIMEOUT)
     end
+  end
 end

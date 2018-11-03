@@ -8,7 +8,7 @@ class ReadingsController < ApplicationController
 
     begin
       render json: { reading: Reading.find_by(thermostats_id: @thermostat.id, number: params[:number]), status: :success }
-    rescue
+    rescue StandardError
       not_found
     end
   end
@@ -23,19 +23,19 @@ class ReadingsController < ApplicationController
 
   private
 
-    def reading_params
-      params.require(:reading).permit(:temperature, :humidity, :battery_charge)
-    end
+  def reading_params
+    params.require(:reading).permit(:temperature, :humidity, :battery_charge)
+  end
 
-    def build_reading(permitted)
-      Reading.new(thermostats_id: @thermostat.id,
-        number: @buffer.number,
-        temperature: permitted[:temperature],
-        humidity: permitted[:humidity],
-        battery_charge: permitted[:battery_charge])
-    end
+  def build_reading(permitted)
+    Reading.new(thermostats_id: @thermostat.id,
+                number: @buffer.number,
+                temperature: permitted[:temperature],
+                humidity: permitted[:humidity],
+                battery_charge: permitted[:battery_charge])
+  end
 
-    def not_found
-      render json: { error: 'Record not found', status: :error }
-    end
+  def not_found
+    render json: { error: 'Record not found', status: :error }
+  end
 end

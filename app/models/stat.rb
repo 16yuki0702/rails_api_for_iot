@@ -2,7 +2,7 @@ class Stat < ApplicationRecord
   belongs_to :thermostat, foreign_key: :thermostats_id
 
   def update_target
-    self.attributes.except("id", "thermostats_id", "created_at", "updated_at")
+    attributes.except('id', 'thermostats_id', 'created_at', 'updated_at')
   end
 
   def self.from_buffer(buffer)

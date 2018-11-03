@@ -10,10 +10,9 @@ class ThermostatsController < ApplicationController
 
   private
 
-    def thermostat_params
-      permitted = params.require(:thermostat).permit(:household_token, :location)
-      permitted[:location] = "POINT(#{permitted[:location]})"
-      permitted
-    end
+  def thermostat_params
+    permitted = params.require(:thermostat).permit(:household_token, :location)
+    permitted[:location] = "POINT(#{permitted[:location]})"
+    permitted
+  end
 end
-

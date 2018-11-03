@@ -16,9 +16,7 @@ class GeometrySerializer
   end
 
   def serialize(value)
-    if value.is_a?(String)
-      value = @wkt_parser.parse(value)
-    end
+    value = @wkt_parser.parse(value) if value.is_a?(String)
     value
   end
 end
