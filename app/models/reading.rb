@@ -6,4 +6,10 @@ class Reading < ApplicationRecord
     options[:except] ||= [:id, :created_at, :updated_at]
     super(options)
   end
+
+  class << self
+    def from_buffer(buffer, number)
+      Reading.new.from_json(buffer.reading(number).to_json)
+    end
+  end
 end

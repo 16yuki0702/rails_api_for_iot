@@ -50,23 +50,24 @@ class BufferManager
     DataBuffer.get(stat_min_key(k))
   end
 
-
   def keep_stat(reading)
     # each thermostat does not call this method at the same time.
     # because each thermostat has its own key that never duplicated
     # and call it at regular interval.
     # so this method doesn't need locking.
     Reading::THERMOSTAT_ATTRIBUTES.each do |k|
-      DataBuffer.incrbyfloat(stat_total_key(k), reading[k])
+      v = reading[k]
+
+      DataBuffer.incrbyfloat(stat_total_key(k), v)
 
       max = DataBuffer.get(stat_max_key(k))
-      if max.nil? || max.to_f < reading[k]
-        set_with_timeout(stat_max_key(k), reading[k])
+      if max.nil? || max.to_f < v
+        DataBuffer.set(stat_max_key(k), v)
       end
 
       min = DataBuffer.get(stat_min_key(k))
-      if min.nil? || min.to_f > reading[k]
-        set_with_timeout(stat_min_key(k), reading[k])
+      if min.nil? || min.to_f > v || reading.number == 1
+        DataBuffer.set(stat_min_key(k), v)
       end
     end
   end

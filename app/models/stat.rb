@@ -9,8 +9,8 @@ class Stat < ApplicationRecord
     s = Stat.new
     Reading::THERMOSTAT_ATTRIBUTES.each do |k|
       s["#{k}_total"] = buffer.total(k)
-      s["#{k}_max"] = buffer.max(k)
-      s["#{k}_min"] = buffer.min(k)
+      s["#{k}_max"]   = buffer.max(k)
+      s["#{k}_min"]   = buffer.min(k)
     end
     s
   end

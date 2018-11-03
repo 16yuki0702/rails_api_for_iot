@@ -23,16 +23,6 @@ class ReadingsController < ApplicationController
 
   private
 
-    def authenticate
-      authenticate_or_request_with_http_token do |token, options|
-        @thermostat = Thermostat.find_by(household_token: token)
-      end
-    end
-
-    def set_buffer
-      @buffer = BufferManager.new(thermostat: @thermostat)
-    end
-
     def reading_params
       params.require(:reading).permit(:temperature, :humidity, :battery_charge)
     end
