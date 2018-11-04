@@ -17,8 +17,6 @@ RSpec.describe Stat, type: :model do
   describe '#from_buffer' do
     before do
       @buffer = BufferManager.new(thermostat: @thermostat)
-      @buffer.keep_stat(@reading)
-      @buffer.number
     end
 
     it 'is expected to get same data from buffer' do

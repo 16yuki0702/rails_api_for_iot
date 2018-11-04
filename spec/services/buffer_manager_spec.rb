@@ -10,13 +10,13 @@ RSpec.describe BufferManager do
 
   describe '#number' do
     it 'is expected to return number' do
-      expect(@buffer.number).to eq(1)
+      expect(@buffer.number).to eq(2)
     end
   end
 
   describe '#current_number' do
     it 'is expected to return number' do
-      expect(@buffer.current_number).to eq('0')
+      expect(@buffer.current_number).to eq('1')
     end
   end
 
@@ -36,10 +36,6 @@ RSpec.describe BufferManager do
   end
 
   describe '#keep_stat, total, max, min' do
-    before do
-      @buffer.keep_stat(@reading)
-    end
-
     it 'is expected to return saved stats' do
       expect(@buffer.total(:temperature).to_i).to eq(@reading.temperature)
       expect(@buffer.max(:temperature).to_i).to eq(@reading.temperature)

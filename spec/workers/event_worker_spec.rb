@@ -21,15 +21,15 @@ RSpec.describe EventWorker do
       @stat.reload
       expect(Reading.count).to eq(2)
       expect(@thermostat.sequence.reload.number).to eq(2)
-      expect(@stat.temperature_total).to eq(60.0)
+      expect(@stat.temperature_total).to eq(90.0)
       expect(@stat.temperature_max).to eq(60.0)
-      expect(@stat.temperature_min).to eq(0.0)
-      expect(@stat.humidity_total).to eq(40.0)
+      expect(@stat.temperature_min).to eq(30.0)
+      expect(@stat.humidity_total).to eq(60.0)
       expect(@stat.humidity_max).to eq(40.0)
-      expect(@stat.humidity_min).to eq(0.0)
-      expect(@stat.battery_charge_total).to eq(20.0)
+      expect(@stat.humidity_min).to eq(20.0)
+      expect(@stat.battery_charge_total).to eq(30.0)
       expect(@stat.battery_charge_max).to eq(20.0)
-      expect(@stat.battery_charge_min).to eq(0.0)
+      expect(@stat.battery_charge_min).to eq(10.0)
     end
   end
 

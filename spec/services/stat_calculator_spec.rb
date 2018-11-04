@@ -10,9 +10,6 @@ RSpec.describe StatCalculator do
     number = @buffer.number
     @buffer.keep_stat(Reading.new(number: number, temperature: 60.0, humidity: 40.0, battery_charge: 20.0, thermostats_id: @thermostat.id))
 
-    number2 = @buffer.number
-    @buffer.keep_stat(Reading.new(number: number2, temperature: 50.0, humidity: 30.0, battery_charge: 10.0, thermostats_id: @thermostat.id))
-
     @stat = StatCalculator.new(thermostat: @thermostat)
   end
 
@@ -20,12 +17,12 @@ RSpec.describe StatCalculator do
     it 'is expected to return current stats' do
       res = @stat.stat
 
-      expect(res[:temperature_avg]).to eq(55.0)
+      expect(res[:temperature_avg]).to eq(45.0)
       expect(res[:temperature_max]).to eq(60.0)
-      expect(res[:temperature_min]).to eq(50.0)
-      expect(res[:humidity_avg]).to eq(35.0)
+      expect(res[:temperature_min]).to eq(30.0)
+      expect(res[:humidity_avg]).to eq(30.0)
       expect(res[:humidity_max]).to eq(40.0)
-      expect(res[:humidity_min]).to eq(30.0)
+      expect(res[:humidity_min]).to eq(20.0)
       expect(res[:battery_charge_avg]).to eq(15.0)
       expect(res[:battery_charge_max]).to eq(20.0)
       expect(res[:battery_charge_min]).to eq(10.0)
