@@ -16,16 +16,19 @@ gem 'sass-rails', '~> 5.0'
 gem 'sidekiq', '>= 4.2.9'
 gem 'uglifier', '>= 1.3.0'
 
-group :development, :test do
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
+  gem 'rspec-rails'
+  gem 'rspec-sidekiq'
+end
+
+group :development, :test do
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry-byebug'
   gem 'pry-doc'
   gem 'pry-rails'
   gem 'pry-stack_explorer'
-  gem 'rspec-rails'
-  gem 'rspec-sidekiq'
 end
 
 group :development do
