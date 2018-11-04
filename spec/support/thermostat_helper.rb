@@ -8,8 +8,10 @@ module ThermostatHelper
                              humidity: 20.0,
                              battery_charge: 10.0)
       @reading.save
-      Sequence.new(thermostats_id: @thermostat.id, number: 0).save
-      Stat.new(thermostats_id: @thermostat.id).save
+      @sequence = Sequence.new(thermostats_id: @thermostat.id, number: 0)
+      @sequence.save
+      @stat = Stat.new(thermostats_id: @thermostat.id)
+      @stat.save
     end
   end
 end
