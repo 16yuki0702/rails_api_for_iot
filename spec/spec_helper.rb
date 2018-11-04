@@ -91,10 +91,13 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+
+  # select test db.
   config.before(:suite) do
     DataBuffer.select(1)
   end
 
+  # clean up buffer data when test have done.
   config.after do
     DataBuffer.flushdb
   end
